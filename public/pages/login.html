@@ -29,29 +29,31 @@
 <body class="loginPage">
     <div class="loginSection">
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center m-10">
                 <div class="col-12 col-md-8 col-lg-5">
                     <div class="companyLogo">
-                        <img src="images/devoteam_logo.png" alt="devoteam_logo" title="devoteam_logo">
+                        <img src="images/devoteam_logo.png" alt="devoteam_logo" title="devoteam_logo" class="img-fluid">
                     </div>
-                    <div class="headerTitle">
+                    <div class="headerTitle text-center">
                         <h3>Levensthein Document AI</h3>
                     </div>
                     <br>
-                    <div action="/" method="POST" class="card border-0 shadow-sm">
+                    <div action="/" method="POST" class="card border-0 shadow-sm p-3 text-left">
                         <div class="card-body">
-                            <div class="mb-3">
+                            <div class="mb-3 text-left">
                                 <label for="email" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="email"
                                     placeholder="Enter your Username">
+                                <small id="alert-username" class="text-danger">Username must be fill</small>
                             </div>
-                            <div class="mb-4">
+                            <div class="mb-4 text-left">
                                 <label for="passwordInput" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="userPassword"
                                     placeholder="Enter your password">
+                                    <small id="alert-password" class="text-danger">Password must be fill</small>
                             </div>
                             <div class="d-grid gap-2">
-                                <button class="btn btn-primary fw-bold" id="btn-login">Login</button>
+                                <button class="btn btn-primary fw-bold" id="btn-login"><i class="nav-icon fas fa-sign-in-alt"></i>&nbsp;Login</button>
                             </div> 
                             <!-- <br>
                             <div id="gSignInWrapper">
@@ -83,7 +85,8 @@
 <script src="../admin-lte-3/plugins/jquery/jquery.min.js"></script>
 
 <div id="processgif">
-
+    <div></div>
+    <div></div>
 </div>
 <script>
 
@@ -122,44 +125,65 @@
         config = config.replace(/&#34;/gi, '"')
         config = JSON.parse(config)
 
+        $("#alert-username").hide();
+        $("#alert-password").hide();
+
         $("#email").focus();
 
         
         $("#userPassword").on("keypress", function(e){
             if(e.which == 13) {
                 $("#btn-login").click()
+            }else{
+                $("#alert-password").hide();
             }
         })
 
         $("#email").on("keypress", function(e){
             if(e.which == 13) {
                 $("#userPassword").focus()
+            }else{
+                $("#alert-username").hide();
             }
         })
         $("#btn-login").on("click", function(){
             let email = $("#email").val();
             let password = $("#userPassword").val();
-            let user = { email: email, userPassword: password }
-            let url = "/users/login";
-            $("#processgif").show();
-            console.log(url)
-            console.log(user)
-            $.post(url, JSON.stringify(user), function(response){
-                console.log(response)
-                $("#processgif").hide();
-                if(response.success)
-                {
-                    location = "/"
-                }
-                else
-                {
-                    alert(response.message)
-                }
-            })
+            console.log("email:"+email);
+            console.log("password:"+password);
+            if(email==""){
+                $("#email").focus();
+                $("#alert-username").show();
+            }
+            if(password==""){
+                $("#userPassword").focus();
+                $("#alert-password").show();
+            }
+
+            if(email && password){
+                let user = { email: email, userPassword: password }
+                let url = "/users/login";
+                $("#processgif").show();
+                console.log(url)
+                console.log(user)
+                $.post(url, JSON.stringify(user), function(response){
+                    console.log(response)
+                    $("#processgif").hide();
+                    if(response.success)
+                    {
+                        location = "/"
+                    }
+                    else
+                    {
+                        swal("Oops!", response.message, "error");
+                        // alert(response.message)
+                    }
+                })
+            }
         })
     })
   </script>
-
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
 </html>

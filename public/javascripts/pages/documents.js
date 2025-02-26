@@ -40,6 +40,22 @@ export class DocumentPage extends GenericListPage
     {
         
         var me = this;
+
+        var docname;
+        var docid;
+        const searchParams = new URLSearchParams(window.location.search);
+        if(searchParams.has('doc') && searchParams.has('id')){
+            for (const param of searchParams) {
+                if(param[0]=="id") docid = param[1];
+                if(param[0]=="doc") docname = param[1];
+            }
+            var url = "gs://lv-tennant-spindo-upload-bucket/pdf/"+docname;
+            me.onCreateTemplateClick(url)
+        }
+
+        console.log("docname: "+docname)
+        console.log("docid: "+docid)
+
         $(".row-create-template").on('click', function(){
             let data = $(this).attr("data")
             me.onCreateTemplateClick(data)
@@ -51,8 +67,13 @@ export class DocumentPage extends GenericListPage
         } )
 
         $("#btn-close-new-template").on('click', function(){
+            localStorage.removeItem("flag_row");
             $("#newTemplate").hide(500);
-            me.loadData(me,  { success: function(payload){ me.loadDataSuccess(me, payload) }, error: null} )
+            if(docname!=null && docid!=null){
+                location = "/ocrsessions/view?id=" + docid;
+            }else{
+                me.loadData(me,  { success: function(payload){ me.loadDataSuccess(me, payload) }, error: null} )
+            }
         })
     }
 
@@ -71,8 +92,17 @@ export class DocumentPage extends GenericListPage
 
     onCreateTemplateClick(uri)
     {
-        $("#newTemplate").show(500);
-        $("#newTemplateFrame")[0].src = "/templates/new?uri=" + encodeURIComponent(uri);
+        var pageid=1;
+        const searchParams = new URLSearchParams(window.location.search);
+        if(searchParams.has('page')){
+            for (const param of searchParams) {
+                if(param[0]=="page") pageid = param[1];
+            }
+        }
+        console.log("pagenumm: "+pageid);
+
+        $("#newTemplate").show(100);
+        $("#newTemplateFrame")[0].src = "/templates/new?uri=" + encodeURIComponent(uri) +"&curpage="+pageid;
 
         //window.open("/templates/new?uri=" + encodeURIComponent(uri), "","height=200,width=400,scrollbars=no")
     }

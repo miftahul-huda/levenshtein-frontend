@@ -13,6 +13,7 @@ var Page2 = {
     translation: 0,
     actions: [],
     rotateRun: false,
+    scale: 1,
     ocr: function(page, callback)
     {
         console.log("OCR")
@@ -600,7 +601,72 @@ var Page2 = {
                 console.log('Page loaded');
                 Page2.PAGE = page;
                 
-                var scale = 2.44;
+                var scale = Page2.scale;
+                var viewport = page.getViewport({scale: scale});
+    
+                // Prepare canvas using PDF page dimensions
+                var canvas = document.getElementById('pdf-canvas');
+                var context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+    
+                console.log("page.view")
+                console.log(viewport)
+    
+                Page2.DOCUMENT_WIDTH = Math.round(viewport.width);
+                Page2.DOCUMENT_HEIGHT = Math.round(viewport.height);
+    
+                // Render PDF page into canvas context
+                var renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                var renderTask = page.render(renderContext);
+                renderTask.promise.then(function () {
+                    //console.log(canvas.toDataURL('image/jpeg'));
+                    console.log('Page rendered');
+                    //Page2.saveDisplayedImage();
+                    
+                    if(callback != null)
+                        callback();
+                });
+    
+                TableResizer.clear("divPdfTable");
+                Page2.getAndDisplayCurrentPageTemplate("divPdfTable")
+            });
+
+        }
+
+    },
+    zoomPage: function(pdf, pageNumber, docscale, callback)
+    {
+        Page2.scale = docscale;
+        // alert("zoomInPage: "+Page2.scale)
+        Page2.actions = [];
+        Page2.imageInProcess = null;
+        $("#processgif").show();
+        
+        // Fetch the first page
+        //var pageNumber = 1;
+
+
+        if(pageNumber in Page2.IMAGES)
+        {
+            
+            Page2.displayImage(Page2.IMAGES[pageNumber])
+            TableResizer.clear("divPdfTable");
+            Page2.getAndDisplayCurrentPageTemplate("divPdfTable")
+        }
+        else 
+        {
+            console.log("pdf.getPage")
+            pdf.getPage(pageNumber).then(function(page) {
+
+                $("#processgif").hide();
+                console.log('Page loaded');
+                Page2.PAGE = page;
+                
+                var scale = Page2.scale;
                 var viewport = page.getViewport({scale: scale});
     
                 // Prepare canvas using PDF page dimensions
@@ -652,7 +718,12 @@ var Page2 = {
         $(canvas).css("height", img.height )
 
         console.log("size " + img.width + ", " + img.height)
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height)        
+        // ctx.drawImage(img, img.width / Page2.scale, img.height / Page2.scale, img.width / Page2.scale, img.height / 2, 0, 0, canvas.width, canvas.height);
+        if(Page2.scale > 0.01){
+            ctx.drawImage(img, 0, 0, canvas.width * Page2.scale, canvas.height * Page2.scale)        
+        }else{
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height)        
+        }
 
     }
     ,
@@ -1490,7 +1561,7 @@ var Page2 = {
         else 
             $("#cmb-template").val(template.id);
         $("#cmb-template").select2();
-
+ 
         let sTemplate = template.tableTemplate;
         sTemplate = atob(sTemplate);
         let templates =  JSON.parse(sTemplate);
@@ -1583,7 +1654,20 @@ var Page2 = {
         pageTemplate.pageImageUrl = fileurl;
         pageTemplate.document = Page2.FILE_URI;
         pageTemplate.page = Page2.CUR_PAGE;
-        pageTemplate.tableTemplate = Page2.getTemplateFromUI(divId)
+        var pgTableTemplate = JSON.parse(Page2.getTemplateFromUI(divId));
+        
+        if (localStorage.getItem("flag_row") !== null) {
+            pageTemplate.skipRowTable = btoa(localStorage.getItem("flag_row"));
+            // x = localStorage.getItem("flag_row");
+            // x = JSON.parse(x)
+            // for(i=0;i<x.length;i++){
+            //     pgTableTemplate.boxes[4].rows.splice(x[i],1);
+            // }
+            localStorage.removeItem("flag_row");
+        }
+        pageTemplate.tableTemplate = JSON.stringify(pgTableTemplate);
+        console.log("pagerano: "+pageTemplate.tableTemplate);
+
         pageTemplate.tableTemplate = btoa(pageTemplate.tableTemplate);
 
 
@@ -1596,6 +1680,7 @@ var Page2 = {
             if(response.success)
             {
                 $.notify("Template for this  page is  saved", "success")
+
             }
             else {
                 $.notify("Error :  " + response.message, "error")

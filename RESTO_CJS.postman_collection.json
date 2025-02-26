@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "05d7f5ce-745c-473b-b685-81d9c9d12c9a",
+		"name": "RESTO CJS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "6204551"
+	},
+	"item": [
+		{
+			"name": "TOKEN AUTH",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"user-agent": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "system-key",
+						"value": "{{system-key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/auth?username=msorderm01&password=pass_msorderm01",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"auth"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "msorderm01"
+						},
+						{
+							"key": "password",
+							"value": "pass_msorderm01"
+						}
+					]
+				},
+				"description": "Mendapatkan token, digunakan untuk post upload dan inquiry"
+			},
+			"response": []
+		},
+		{
+			"name": "MENU",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "system-key",
+						"value": "{{system-key}}",
+						"type": "text"
+					}
+				],
+				"url": "{{host}}/index.php/menu"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://cjs.co.id/n1",
+			"type": "string"
+		},
+		{
+			"key": "system-key",
+			"value": "ranorano",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "OrQGD.Ub.ET4EP_UXvE2VbEy8ZLziKDyrYCcpKRjH.7s5KoosUrC40KKOu0q1C2DDvHuMbGeq4MoP_ZgfJOcomd0G5a8Y7tXYvTHmSxe9s6koAwQ3ACHHK0AlZ83oY7B0OG_l225cWYRCW6pjsJA7BQMBZSi_pV6JPH_Ki",
+			"type": "string"
+		}
+	]
+}

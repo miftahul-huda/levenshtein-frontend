@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: RESTO CJS
+  version: 1.0.0
+servers:
+  - url: https://cjs.co.id/n1
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+paths:
+  /auth:
+    get:
+      tags:
+        - General
+      summary: TOKEN AUTH
+      description: Mendapatkan token, digunakan untuk post upload dan inquiry
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: msorderm01
+        - name: password
+          in: query
+          schema:
+            type: string
+          example: pass_msorderm01
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /index.php/menu:
+    get:
+      tags:
+        - General
+      summary: MENU
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

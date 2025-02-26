@@ -1,0 +1,18 @@
+service: levenshtein
+runtime: nodejs20
+env: standard
+env_variables:
+ APPLICATION_PORT : "8080"
+ PROJECT : "lv-saas"
+ GCS_UPLOAD_BUCKET : "lv-tennant-spindo-upload-bucket"
+ GCS_PDF_FOLDER : "pdf"
+ GCS_IMAGE_FOLDER : "images"
+ UPLOAD_URL : "https://gcsmanagerapi-dot-lv-tennant-spindo.et.r.appspot.com"
+ LEVENSHTEIN_API : "https://levenshtein-api-w7smthqjta-et.a.run.app"
+ LEVENSHTEIN_UM_API : "http://localhost:3000"
+ DOWNLOAD_OCR_PROCESSING_PROJECT: "lv-saas"
+ DOWNLOAD_OCR_PROCESSING_BUCKET: "lv-saas-spindo-trigger-cloudfunction"
+ DOWNLOAD_OCR_PROCESSING_FOLDER: "ocrzipfile"
+ DOWNLOAD_OCR_RESULT_PROJECT: "lv-saas"
+ DOWNLOAD_OCR_RESULT_BUCKET: "lv-saas-filedata"
+ DOWNLOAD_OCR_RESULT_FOLDER: "after_process_zip"

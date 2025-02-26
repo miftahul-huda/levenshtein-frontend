@@ -132,6 +132,24 @@
   position: relative;
 }
 
+.rowflag
+{
+  opacity: 0;
+  cursor: pointer; 
+  width: 20px; 
+  height: 20px; 
+  background: url(/images/flag.png) no-repeat; 
+  background-size: 100% auto;
+  position:absolute;
+  bottom: 0px;
+  left: 40px;
+}
+
+.rowflag:hover
+{
+  opacity: .8;
+}
+
 .rowadd
 {
   opacity: 0;

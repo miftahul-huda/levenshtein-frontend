@@ -26,7 +26,7 @@
 
         <div class="info">
         <a href="#" class="d-block"><%=session.name %></a>
-        <%=session.role %>
+        <h5 class="badge bg-light text-dark"><%=session.role %></h5>
         </div>
     </div>
 
@@ -41,11 +41,11 @@
         <li class="nav-header">PARSER</li>
         <% if(session.role == 'ADMIN' || session.role == 'SUPER_ADMIN'  || session.role == 'OCR_USER') { %>
         <li class="nav-item" id="documents">
-            <a href="/documents" class="nav-link">
-            <i class="nav-icon fas fa-th"></i>
-            <p>
-                Documents
-            </p>
+            <a href="/documents" class="nav-link <% if(session.activeLink=='documents'){ %>active<% } %>">
+                <i class="nav-icon far fa-file-alt"></i>
+                <p>
+                    Documents
+                </p>
             </a>
         </li>
 
@@ -53,8 +53,8 @@
 
 
         <li class="nav-item" id="templates">
-            <a href="/templates" class="nav-link">
-                <i class="nav-icon fas fa-table"></i>
+            <a href="/templates" class="nav-link  <% if(session.activeLink=='templates'){ %>active<% } %>">
+                <i class="nav-icon far fa-file-archive"></i>
                 <p>
                     Templates
                 </p>
@@ -64,8 +64,8 @@
         <% if(session.role == 'ADMIN' || session.role == 'SUPER_ADMIN'  || session.role == 'OCR_USER') { %>
 
         <li class="nav-item" id="ocrsessions">
-            <a href="/ocrsessions" class="nav-link">
-                <i class="nav-icon fas fa-table"></i>
+            <a href="/ocrsessions" class="nav-link  <% if(session.activeLink=='ocrsessions'){ %>active<% } %>">
+                <i class="nav-icon fas fa-film"></i>
                 <p>
                     OCR & Result
                 </p>
@@ -76,16 +76,16 @@
         
         <li class="nav-header">ADMINISTRATION</li>
         <li class="nav-item">
-            <a href="/billings" class="nav-link">
-            <i class="nav-icon far fa-calendar-alt"></i>
+            <a href="/billings" class="nav-link  <% if(session.activeLink=='billings'){ %>active<% } %>">
+            <i class="nav-icon far fa-money-bill-alt"></i>
             <p>
                 Billing
             </p>
             </a>
         </li>
         <li class="nav-item" id="profile">
-            <a href="/users/profile" class="nav-link">
-            <i class="nav-icon far fa-image"></i>
+            <a href="/users/profile" class="nav-link  <% if(session.activeLink=='profile'){ %>active<% } %>">
+            <i class="nav-icon fas fa-user-edit"></i>
             <p>
                 Profile
             </p>
@@ -94,8 +94,8 @@
 
         <% if(session.role == 'ADMIN' || session.role == 'SUPER_ADMIN' ) { %>
         <li class="nav-item" id="users">
-            <a href="/users" class="nav-link">
-            <i class="nav-icon fas fa-columns"></i>
+            <a href="/users" class="nav-link  <% if(session.activeLink=='users'){ %>active<% } %>">
+            <i class="nav-icon fas fa-users"></i>
             <p>
                 User Management
             </p>
@@ -104,7 +104,7 @@
         <% } %>
         <li class="nav-item">
             <a href="/login/signout" class="nav-link">
-            <i class="nav-icon far fa-image"></i>
+            <i class="nav-icon fas fa-sign-out-alt"></i>
             <p>
                 Logout
             </p>

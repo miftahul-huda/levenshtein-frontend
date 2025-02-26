@@ -87,6 +87,35 @@ var TableResizer = {
         }
     }
     ,
+    flagRow: function(tbl, idx)
+    {
+
+        console.log("zoom-flag: "+idx);
+        $(tbl).find("tr[row-idx=" + idx + "] td").html("<span class='text-warning'>x</span>");
+        
+        if (localStorage.getItem("flag_row") === null) {
+            x = [];
+            x.push(idx)
+            x = JSON.stringify(x);
+            localStorage.setItem("flag_row", x);
+        }else{
+            x = localStorage.getItem("flag_row");
+            x = JSON.parse(x)
+            x.push(idx)
+            x = JSON.stringify(x);
+            localStorage.setItem("flag_row", x);
+            
+            // console.log("zoom-ls: "+localStorage.getItem("flag_row"));
+        }
+        // arr["boxes"][4]["rows"][x]
+        // arr["boxes"][4]["rows"][5] //data ke 6
+        // arr["boxes"][4]["rows"][12] //data ke 13
+        // x = JSON.parse(Page2.getTemplateFromUI("divPdfTable"));
+        // x.boxes[4].rows.splice(12,1);
+        // x.boxes[4].rows.splice(5,1);
+        // console.log("zoom-o: "+ JSON.stringify(x));
+    }
+    ,
     setAllIdx: function(tbl)
     {
         let prevIdx = -1;
@@ -238,7 +267,8 @@ var TableResizer = {
         
         let btnRowAdd = "<div class=\"rowadd\"></div> ";
         let btnRowDel = "<div class=\"rowdel\"></div> ";
-        let divbtnRow = "<div class='rowadddel-container'>" + btnRowAdd + "</div>"
+        let btnRowFlag = "<div class=\"rowflag\"></div> ";
+        let divbtnRow = "<div class='rowadddel-container'>" + btnRowAdd + btnRowFlag + "</div>"
     
         let btnAdd = "<div class=\"coladd\"></div> ";
         let btnDel = "<div class=\"coldel\"></div> ";
@@ -291,7 +321,8 @@ var TableResizer = {
                 
                 let btnRowAdd = "<div class=\"rowadd\"></div> ";
                 let btnRowDel = "<div class=\"rowdel\"></div> ";
-                let divbtnRow = "<div class='rowadddel-container'>" + btnRowAdd + btnRowDel + "</div>"            
+                let btnRowFlag = "<div class=\"rowflag\"></div> ";
+                let divbtnRow = "<div class='rowadddel-container'>" + btnRowAdd + btnRowDel + btnRowFlag + "</div>"            
                 let newTdContent = "<div class='th-last'><div class='th-last-button-dragger'>" + tdContent + "</div>" + divbtnRow + "</div>"
     
                 $(td).html(newTdContent)
@@ -496,6 +527,14 @@ var TableResizer = {
             var th = $(this).parents("th");
             var idx = $(th).attr("col-idx");
             TableResizer.delCol(tbl, idx)
+        });
+
+        $("#"+ tblId + " .rowflag").off("click");
+        $("#"+ tblId + " .rowflag").on("click", function(){
+            var th = $(this).parents("tr");
+            var idx = $(th).attr("row-idx");
+            
+            TableResizer.flagRow(tbl, idx)
         });
     
         $("#"+ tblId + " .rowadd").off("click");

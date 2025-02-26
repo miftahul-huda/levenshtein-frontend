@@ -4,7 +4,7 @@ const path = require('path');
 
 const fs = require('fs');
 const https = require('https');
-
+ 
 
 function getConfig(req)
 {
@@ -60,7 +60,6 @@ router.get("", function(req, res){
 });
 
 router.get("/view", function(req, res){
-  
   //req.session.login = false;
   if(req.session.login != true)
     res.redirect("/login")
@@ -74,7 +73,6 @@ router.get("/view", function(req, res){
     res.render(p, { activeLink: "ocrsessions", session: req.session, sessionstring: JSON.stringify(req.session), id: id, config: JSON.stringify(getConfig(req)) } )
   }
 });
-
 
 router.get("/view-ocr-result", function(req, res){
   

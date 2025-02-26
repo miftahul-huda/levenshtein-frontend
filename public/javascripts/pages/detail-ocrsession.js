@@ -117,6 +117,20 @@ export class DetailOcrSessionPage
             location = "/ocrsessions"
         });
 
+        $("#btn-sc-edit-template").on("click", function(){
+            var page = $("#cmb-page").val();
+            var doc = $("#document").text();
+            var doc = doc.replace("https://storage.googleapis.com/lv-tennant-spindo-upload-bucket/pdf/","")            
+            console.log(doc)
+            var id;
+            const searchParams = new URLSearchParams(window.location.search);
+            if(searchParams.has('id')){
+                for (const param of searchParams) {
+                    id = param[1];
+                }
+            }
+            location = "/documents?id="+id+"&page="+page+"&doc="+doc;
+        });
 
         $("#btn-rerun-ocr").off("click")
         $("#btn-rerun-ocr").on("click", function(){
@@ -351,7 +365,10 @@ export class DetailOcrSessionPage
         let formOcrResult = null;
         try{
             formOcrResult = ocrResult.allResults.formOcrResult.positions;
-            $("#result-image").html("<a target='_blank' href='" + ocrResult.allResults.formOcrResult.image  + "'>View Visualization</a>")
+            $("#result-image").attr("target","_blank");
+            $("#result-image").attr("class","btn btn-small btn-primary");
+            $("#result-image").attr("href", ocrResult.allResults.formOcrResult.image);
+            $("#result-image").html("View Visualization");
 
         }
         catch(e)

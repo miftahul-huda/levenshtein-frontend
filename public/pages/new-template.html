@@ -23,62 +23,68 @@
 
     <div id="menu-buttons-container" style="z-index: 30; display: flex; border: solid 1px #ccc; padding: 10px; background-color: #fff; position: fixed; left:0;  top: 0px">
         <div>
-            <button id="btn-prev-image" type="button" class="btn-small btn-block btn-primary"><<</button>
+            <button id="btn-prev-image" type="button" class="btn-small btn-block btn-primary"><i class="fas fa-angle-double-left"></i></button>
         </div>
         <div style="padding-left: 10px; padding-right: 10px; font-size: 9pt;margin-top: 10px;width: 100px" id="page-info">Page</div>
-        <div style="">
-            <button id="btn-next-image" type="button" class="btn-small btn-block btn-primary">>></button>
+        <div>
+            <button id="btn-next-image" type="button" class="btn-small btn-block btn-primary"><i class="fas fa-angle-double-right"></i></button>
         </div>
         <div style="width: 1px;"></div>
         <div style="width: 100%; display: inline-flex;">
             <div class="btn-container" style="display: flex">
-                <button id="btn-create-form" tooltip="Add Form Guideline" type="button" class="btn btn-primary">
+                <button id="zoomin" tooltip="Zoom In Canvas" type="button" class="btn btn-primary" style="margin-right:2px">
+                    <i class="fa fa-search-plus"></i>
+                </button>
+                <button id="zoomout" tooltip="Zoom Out Canvas" type="button" class="btn btn-primary" style="margin-right: 2px;">
+                    <i class="fa fa-search-minus"></i>
+                </button>
+                <button id="btn-create-form" tooltip="Add Form Guideline" type="button" class="btn btn-primary" style="margin-right:2px">
                     <img src="../images/white-forms.png" alt="Add Guideline form">
                 </button>
-                <button id="btn-create-table" tooltip="Add Table Guideline" type="button" class="btn btn-primary">
+                <button id="btn-create-table" tooltip="Add Table Guideline" type="button" class="btn btn-primary" style="margin-right:2px">
                     
                     <img src="../images/white-tables.png">
                     
                 </button>
-                <button id="btn-clear-selected" tooltip="Remove Selected" type="button" class="btn btn-primary">
+                <button id="btn-clear-selected" tooltip="Remove Selected" type="button" class="btn btn-primary" style="margin-right:2px">
                     
                     <img src="../images/white-remove-selection.png">
                 
                 </button>
-                <button id="btn-clear-table"  tooltip="Clear All" type="button" class="btn btn-primary">
+                <button id="btn-clear-table"  tooltip="Clear All" type="button" class="btn btn-primary" style="margin-right:2px">
                     
                     <img src="../images/white-clear.png">
                 
                 </button>
 
-                <button id="btn-rotate-counterclockwise"  tooltip="Rotate Left" type="button" class="btn btn-primary">
+                <button id="btn-rotate-counterclockwise"  tooltip="Rotate Left" type="button" class="btn btn-primary" style="margin-right:2px">
                     
                     <img src="../images/white-counterclockwise.png">
                 
                 </button>
-                <button id="btn-rotate-clockwise"  tooltip="Rotate Right" type="button" class="btn btn-primary">
+                <button id="btn-rotate-clockwise"  tooltip="Rotate Right" type="button" class="btn btn-primary" style="margin-right:2px">
                     
                     <img src="../images/white-clockwise.png">
                 
                 </button>
 
 
-                <button id="btn-up" type="button" tooltip="Move Up" class="btn btn-primary">
+                <button id="btn-up" type="button" tooltip="Move Up" class="btn btn-primary" style="margin-right:2px">
                     
                     <img src="../images/white-up.png">
                 
                 </button>
-                <button id="btn-down"  tooltip="Move Down" type="button" class="btn btn-primary">
+                <button id="btn-down"  tooltip="Move Down" type="button" class="btn btn-primary" style="margin-right:2px">
                     
                     <img src="../images/white-down.png">
                 
                 </button>
-                <button id="btn-left" tooltip="Move Left" type="button" class="btn btn-primary">
+                <button id="btn-left" tooltip="Move Left" type="button" class="btn btn-primary" style="margin-right:2px">
                     
                     <img src="../images/white-left.png">
                 
                 </button>
-                <button id="btn-right" tooltip="Move Right" type="button" class="btn btn-primary">
+                <button id="btn-right" tooltip="Move Right" type="button" class="btn btn-primary" style="margin-right:2px">
                     
                     <img src="../images/white-right.png">
                 
@@ -99,22 +105,22 @@
                 </div>
             </div>
             <div class="btn-container" style="display: flex">
-                <button id="btn-save-template"  tooltip="Update Template" type="button" class="btn btn-primary">
+                <button id="btn-save-template"  tooltip="Update Template" type="button" class="btn btn-primary" style="margin-right: 2px">
                     
                     <img src="../images/white_update_template.png">
                     
                 </button>
-                <button id="btn-save-new-template" tooltip="Save As New Template" type="button" class="btn btn-primary">
+                <button id="btn-save-new-template" tooltip="Save As New Template" type="button" class="btn btn-primary" style="margin-right: 2px">
                     
                     <img src="../images/white_new_template.png">
                     
                 </button>
-                <button id="btn-delete-template" tooltip="Delete Template" type="button" class="btn btn-primary">
+                <button id="btn-delete-template" tooltip="Delete Template" type="button" class="btn btn-primary" style="margin-right: 2px">
                     
                     <img src="../images/white_delete_template.png">
                     
                 </button>
-                <button id="btn-save-page-template" tooltip="Save Page Template" type="button" class="btn btn-primary">
+                <button id="btn-save-page-template" tooltip="Save Page Template" type="button" class="btn btn-primary" style="margin-right: 2px">
                     
                     <img src="../images/white_save_page.png">
                 
@@ -190,6 +196,12 @@
         return false;
         
     });
+
+    jQuery(document).ready(function(){
+        $("#wrapper").mouseover(function(e){
+            $('#status').html(e.pageX +', '+ e.pageY);
+        }); 
+    })  
         
     $(document).ready(function()
     {
@@ -213,6 +225,19 @@
             $("#btn-save-new-template").hide();
         }
 
+        var pagenum=1;
+        const searchParams = new URLSearchParams(window.location.search);
+
+        if(searchParams.has('curpage')){
+            for (const param of searchParams) {
+                if(param[0]=="curpage") pagenum = param[1];
+                console.log("curpage: "+param)
+            }
+        }
+
+        var pageScale = Page2.scale;
+        Page2.CUR_PAGE = pagenum;
+
         Page2.PROJECT = "<%=config.PROJECT %>";
         Page2.GCS_UPLOAD_BUCKET = "<%=config.GCS_UPLOAD_BUCKET %>";
         Page2.GCS_PDF_FOLDER = "<%=config.GCS_PDF_FOLDER %>";
@@ -224,6 +249,7 @@
         Page2.FILE_URI = Page2.FILE_URI.replace("gs://", "https://storage.googleapis.com/")
 
         Page2.viewMode = "<%=viewMode %>";
+        // alert(Page2.viewMode);
     
         $(document.body).on("mouseover", function(evt){
             //console.log(evt.pageX)
@@ -251,8 +277,55 @@
 
         if(Page2.viewMode == "CREATE_TEMPLATE")
         {
-        
+            // $(".rowflag").on("click", function(){
+            //     alert("oi");
+                
+            // });
+
             Page2.tooltips();
+
+            pdfScale = Page2.scale;
+            // alert(pdfScale);
+            console.log("zoom: "+pdfScale);
+            $("#zoomin").on("click", function(){
+                console.log("zoom: "+pdfScale);
+                // if(pageScale <= 0) return;
+                if(pdfScale < 0.2) pdfScale = 0.1;
+                if(pdfScale > 0.9 && pdfScale < 1) pdfScale = 1;
+
+                if(pdfScale >= 0.1 && pdfScale < 1){
+                    console.log("zoom bro")
+                    pdfScale += 0.1;
+                }else if(pdfScale >= 1){
+                    pdfScale += 1;
+                }
+
+                // if (pageScale < 0.1) return;
+                // displayPage(shownPdf, pageNum);
+                $("#processgif").show();
+                Page2.zoomPage(Page2.PDF, Page2.CUR_PAGE, pdfScale);
+                $("#processgif").hide();
+
+                console.log("zoomin: "+pdfScale)
+            })
+
+            $("#zoomout").on("click", function(){
+                if(pdfScale >= 0.1 && pdfScale <= 1.1){
+                    console.log("zoomout2: "+pdfScale)
+                    pdfScale -= 0.1;
+                }else if(pdfScale > 1.1){
+                    pdfScale -= 1;
+                }
+                
+                if (pdfScale < 0.1) return;
+                $("#processgif").show();
+                Page2.zoomPage(Page2.PDF, Page2.CUR_PAGE, pdfScale);
+                $("#processgif").hide();
+
+                console.log("zoomout: "+pdfScale)
+                // displayPage(shownPdf, pageNum);
+            })
+
             $("#btn-back").on("click", function(){
                 location = "/web";
             });
@@ -321,7 +394,7 @@
                 })
                 Page2.openPage(Page2.PDF, Page2.CUR_PAGE);        
             })
-        
+         
             $("#btn-autodetect").on("click", function(){
                 //TableResizer.createResizedTable("divPdfTable", 5, 5);
                 Page2.autoDetect();
@@ -346,7 +419,7 @@
             })
         
             $("#btn-parseform").on("click", function(){
-                
+                 
                 $("#processgif").show();
                 Page2.parseForm(function(forms){
                     Page2.displayForm(forms)
