@@ -10,8 +10,8 @@ var GLOBAL =
         let curTime = new Date(Date.now());
         let interval = (curTime.getTime() - lastLogin.getTime())/1000;
 
-        console.log("GLOBAL.checkIdle : " + GLOBAL.session.idleTimeout)
-        console.log(interval)
+        //console.log("GLOBAL.checkIdle : " + GLOBAL.session.idleTimeout)
+        //console.log(interval)
 
         if(GLOBAL.session.idleTimeout <= interval && GLOBAL.CHECKIDLEON)
         {

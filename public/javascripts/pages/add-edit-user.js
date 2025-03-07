@@ -79,9 +79,9 @@ export class AddEditUserPage
 
         $(document.body).off("mouseover");
         $(document.body).on("mouseover", function(){
-            console.log("onmouseover")
+            //console.log("onmouseover")
             GLOBAL.session.lastLogin = new Date( Date.now());
-            console.log(GLOBAL.session.lastLogin)
+            //console.log(GLOBAL.session.lastLogin)
         })
 
         GLOBAL.CHECKIDLEON = true;

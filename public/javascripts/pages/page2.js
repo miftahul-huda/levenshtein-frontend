@@ -415,7 +415,7 @@ var Page2 = {
         filepath = encodeURIComponent(filepath);
 
         //var url = Page2.UPLOAD_BASE_URL + "/upload/gcs-create-file/" + Page2.PROJECT + "/" + Page2.GCS_BUCKET + "/" + filepath;
-        var url = Page2.UPLOAD_BASE_URL + "/gcs/create?path=" + Page2.PROJECT + ":" + Page2.GCS_BUCKET + "/" + filepath;
+        var url = Page2.UPLOAD_BASE_URL + "/gcs/create?path=" + Page2.GCS_BUCKET + "/" + filepath + "&project=" + Page2.PROJECT;
 
         console.log("create file url");
         console.log(url);
@@ -462,7 +462,7 @@ var Page2 = {
         formDataToUpload.append("file", blob, originalFilename);
 
         //var url = Page2.UPLOAD_BASE_URL + "/upload/gcs/" + Page2.PROJECT + "/" + Page2.GCS_BUCKET + "/" + Page2.GCS_IMAGE_FOLDER;
-        var url = Page2.UPLOAD_BASE_URL + "/gcs/upload?path=" + Page2.PROJECT + ":" + Page2.GCS_BUCKET + "/" + Page2.GCS_IMAGE_FOLDER + "/";
+        var url = Page2.UPLOAD_BASE_URL + "/gcs/upload?path=/" + Page2.GCS_BUCKET + "/" + Page2.GCS_IMAGE_FOLDER + "&project=" + Page2.PROJECT;
 
         // Submit Form and upload file
         $.ajax({
@@ -1292,7 +1292,7 @@ var Page2 = {
     {
         let f = encodeURIComponent(Page2.GCS_JSON_FOLDER + "/" + filepath)
         //var url = Page2.UPLOAD_BASE_URL + "/upload/gcs-public-delete/" + Page2.PROJECT + "/" + Page2.GCS_BUCKET + "/" + f;
-        var url = Page2.UPLOAD_BASE_URL + "/gcs/delete?path=" + Page2.PROJECT + ":" + Page2.GCS_BUCKET + "/" + f;
+        var url = Page2.UPLOAD_BASE_URL + "/gcs/delete?path=/" + Page2.GCS_BUCKET + "/" + f + "&project=" + Page2.PROJECT;
 
         console.log("delete url");
         console.log(url);
@@ -1718,7 +1718,7 @@ var Page2 = {
     
                 //let uploadUrl = Page2.UPLOAD_URL + "/upload/gcs/" + Page2.PROJECT + "/" + Page2.GCS_UPLOAD_BUCKET + "/" + Page2.GCS_IMAGE_FOLDER;
     
-                let uploadUrl = Page2.UPLOAD_URL + "/gcs/upload?path=" + Page2.PROJECT + ":" + Page2.GCS_UPLOAD_BUCKET + "/" + Page2.GCS_IMAGE_FOLDER + "/";
+                let uploadUrl = Page2.UPLOAD_URL + "/gcs/upload?path=" + Page2.GCS_UPLOAD_BUCKET + "/" + Page2.GCS_IMAGE_FOLDER + "&project=" + Page2.PROJECT;
 
 
                 console.log("uploadUrl")

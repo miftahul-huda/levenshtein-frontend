@@ -584,8 +584,11 @@ export class DetailOcrSessionPage
 
 
         //let url =  me.config.UPLOAD_URL + "/upload/gcs/download-file/" + me.config.PROJECT + "/" + me.config.GCS_UPLOAD_BUCKET + "/" +  filepath
-        let url =  me.config.UPLOAD_URL + "/gcs/download?path=" + 
-        downloadProject + ":" + downloadBucket + "/" +  downloadPath;
+        //let url =  me.config.UPLOAD_URL + "/gcs/download?path=" + 
+        //downloadProject + ":" + downloadBucket + "/" +  downloadPath;
+
+        let url =  me.config.UPLOAD_URL + "/gcs/download?path=" + downloadBucket + "/" +  downloadPath;
+        //url += "&project=" + downloadProject;
 
         console.log("checkAndDownloadOcrResult().url : " + url)
         $.get(url, function(response){
